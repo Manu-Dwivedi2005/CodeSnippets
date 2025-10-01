@@ -213,7 +213,7 @@ const SnippetList: React.FC = () => {
                     value={searchTerm}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchTerm(e.target.value)}
                     className="flex-grow-1"
-                    onKeyDown={(e: React.KeyboardEvent) => {
+                    onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
                         if (e.ctrlKey && e.key === 'k') {
                             e.preventDefault();
                             e.currentTarget.focus();
@@ -226,7 +226,7 @@ const SnippetList: React.FC = () => {
                     style={{ width: '200px' }}
                 >
                     <option value="">All Languages</option>
-                    {uniqueLanguages.map(lang => (
+                    {uniqueLanguages.map((lang: string) => (
                         <option key={lang} value={lang}>{lang}</option>
                     ))}
                 </Form.Select>
@@ -288,7 +288,7 @@ const SnippetList: React.FC = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {filteredSnippets.map((snippet, index) => (
+                        {filteredSnippets.map((snippet: Snippet, index: number) => (
                             <tr key={snippet._id}>
                                 <td>{index + 1}</td>
                                 <td>
