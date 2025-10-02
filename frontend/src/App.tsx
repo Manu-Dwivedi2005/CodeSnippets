@@ -11,9 +11,9 @@ const App: React.FC = () => {
                     <Navbar.Brand href="#home">DevSnippet</Navbar.Brand>
                 </Container>
             </Navbar>
-            <Container className="flex-grow-1">
+            <div className="glass">
                 <SnippetList />
-            </Container>
+            </div>
             <Footer />
         </div>
     );
