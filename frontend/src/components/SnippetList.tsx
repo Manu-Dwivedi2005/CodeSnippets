@@ -106,6 +106,7 @@ const SnippetList: React.FC = () => {
         setFormData((prev: any) => ({ ...prev, [name]: value }));
     };
 
+    // Create a new snippet (POST) and optimistically update UI
     const handleAdd = async () => {
         try {
             setLoading(true);
@@ -122,7 +123,8 @@ const SnippetList: React.FC = () => {
 
             const result = await response.json();
             const addedSnippet = result.snippet || result; // Handle both old and new API response formats
-            setSnippets((prev: Snippet[]) => [addedSnippet, ...prev]); // Add to beginning for better UX
+            // Prepend to list so newly added appears at top
+            setSnippets((prev: Snippet[]) => [addedSnippet, ...prev]);
             setShowAddModal(false);
             setFormData({ title: '', language: '', code: '' });
         } catch (err) {
@@ -133,6 +135,7 @@ const SnippetList: React.FC = () => {
         }
     };
 
+    // Update snippet (PUT)
     const handleUpdate = async () => {
         if (!selectedSnippet) return;
 
@@ -150,6 +153,7 @@ const SnippetList: React.FC = () => {
             }
 
             const updatedSnippet = await response.json();
+            // Replace the updated snippet in the local list
             setSnippets((prev: Snippet[]) => prev.map((s: Snippet) => s._id === updatedSnippet._id ? updatedSnippet : s));
             setShowEditModal(false);
         } catch (err) {
@@ -160,6 +164,7 @@ const SnippetList: React.FC = () => {
         }
     };
 
+    // Delete snippet (DELETE)
     const handleDelete = async (id: string) => {
         if (window.confirm('Are you sure you want to delete this snippet? This action cannot be undone.')) {
             try {
@@ -171,6 +176,7 @@ const SnippetList: React.FC = () => {
                     throw new Error(errorData.message || 'Failed to delete snippet');
                 }
 
+                // Remove from list after successful deletion
                 setSnippets((prev: Snippet[]) => prev.filter((s: Snippet) => s._id !== id));
             } catch (err) {
                 setError(err instanceof Error ? err.message : 'Failed to delete snippet');
@@ -200,19 +206,20 @@ const SnippetList: React.FC = () => {
 
     return (
         <>
-            <Stack direction="horizontal" className="mb-4">
-                <h1 className="me-auto">My Code Snippets ({filteredSnippets.length})</h1>
-                <Button variant="primary" onClick={openAddModal} disabled={loading}>Add Snippet</Button>
+            <Stack direction="horizontal" className="mb-4 align-items-center">
+                <h1 className="me-auto app-title">My Code Snippets <small className="text-muted">({filteredSnippets.length})</small></h1>
+                <Button variant="primary" onClick={openAddModal} disabled={loading} aria-label="Add Snippet">Add Snippet</Button>
             </Stack>
 
             {/* Search and Filter Controls */}
-            <Stack direction="horizontal" gap={3} className="mb-4">
+            <Stack direction="horizontal" gap={3} className="mb-4 search-row">
                 <Form.Control
                     type="text"
                     placeholder="Search snippets by title or code... (Ctrl+K)"
                     value={searchTerm}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchTerm(e.target.value)}
                     className="flex-grow-1"
+                    aria-label="Search snippets"
                     onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
                         if (e.ctrlKey && e.key === 'k') {
                             e.preventDefault();
@@ -224,6 +231,7 @@ const SnippetList: React.FC = () => {
                     value={languageFilter}
                     onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setLanguageFilter(e.target.value)}
                     style={{ width: '200px' }}
+                    aria-label="Filter by language"
                 >
                     <option value="">All Languages</option>
                     {uniqueLanguages.map((lang: string) => (
@@ -234,6 +242,7 @@ const SnippetList: React.FC = () => {
                     <Button
                         variant="outline-secondary"
                         onClick={() => { setSearchTerm(''); setLanguageFilter(''); }}
+                        aria-label="Clear search and filters"
                     >
                         Clear
                     </Button>
