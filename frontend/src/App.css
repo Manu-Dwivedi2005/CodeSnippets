@@ -1,23 +1,31 @@
+/* Root container */
 #root {
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+  background-color: #121212;
+  color: #eaeaea;
 }
 
+/* Logo styling */
 .logo {
   height: 6em;
   padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+  will-change: filter, transform;
+  transition: filter 300ms ease, transform 200ms ease;
 }
 
+.logo:hover {
+  filter: drop-shadow(0 0 1.5em #646cffaa);
+  transform: scale(1.05);
+}
+
+.logo.react:hover {
+  filter: drop-shadow(0 0 1.5em #61dafbaa);
+}
+
+/* Logo spin animation */
 @keyframes logo-spin {
   from {
     transform: rotate(0deg);
@@ -27,16 +35,34 @@
   }
 }
 
+/* Apply spin animation if motion allowed */
 @media (prefers-reduced-motion: no-preference) {
   a:nth-of-type(2) .logo {
     animation: logo-spin infinite 20s linear;
   }
 }
 
+/* Card styling */
 .card {
   padding: 2em;
+  background-color: #1e1e1e !important;
+  border: 1px solid #2b2b2b;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
 }
 
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
+}
+
+/* Read the docs link */
 .read-the-docs {
-  color: #888;
+  color: #b5b5b5;
+  transition: color 0.2s ease;
+}
+
+.read-the-docs:hover {
+  color: #6ea8fe;
 }
