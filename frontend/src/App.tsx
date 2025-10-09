@@ -1,22 +1,17 @@
 import React from 'react';
-import { Container, Navbar } from 'react-bootstrap';
+import { Container } from 'react-bootstrap';
 import SnippetList from './components/SnippetList';
-import Footer from './components/Footer';
+import { ThemeProvider } from './context/ThemeContext';
+import './App.css'; // This is fine, it imports the (now clean) component-specific styles.
 
 const App: React.FC = () => {
-    return (
-        <div className="d-flex flex-column min-vh-100">
-            <Navbar bg="dark" variant="dark" expand="lg" className="mb-4">
-                <Container>
-                    <Navbar.Brand href="#home">DevSnippet</Navbar.Brand>
-                </Container>
-            </Navbar>
-            <div className="glass">
-                <SnippetList />
-            </div>
-            <Footer />
-        </div>
-    );
+  return (
+    <ThemeProvider>
+      <Container fluid className="px-3 px-md-4 py-3 py-md-4 app-container">
+        <SnippetList />
+      </Container>
+    </ThemeProvider>
+  );
 };
 
 export default App;
